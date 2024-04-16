@@ -1,0 +1,41 @@
+
+
+
+<div class="form-wrapper">
+    <div class="form-grid">
+        <div class="title-wrapper">
+            <h2 mat-dialog-title>Blood measurement form</h2>
+        </div>
+        <div class="form">
+            <mat-form-field class="form-field">
+            <mat-label>{{date?.toDateString()}}</mat-label>
+            <input matInput [matDatepicker]="dp" disabled
+            (dateInput)="setDate($event)" (dateChange)="setDate($event)">
+            <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp disabled="false"></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field hintLabel="Max 3 characters" class="form-field">
+                <mat-label>Systolic blood pressure</mat-label>
+                <input matInput [formControl]="systolic" #inputSystolic maxlength="3" placeholder="70-200" required>
+                <mat-hint align="end">{{inputSystolic.value.length}}/3</mat-hint>
+            </mat-form-field>
+            
+            <mat-form-field hintLabel="Max 3 characters" class="form-field">
+                <mat-label>Diastolic blood pressure</mat-label>
+                <input matInput [formControl]="diastolic" #inputDiastolic maxlength="3" placeholder="60-120" required>
+                <mat-hint align="end">{{inputDiastolic.value.length}}/3</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field hintLabel="Max 10 characters" class="form-field">
+                <mat-label>Social security number</mat-label>
+                <input matInput [formControl]="ssn" #inputSsn maxlength="10" placeholder="DDMMYYXXXX" required>
+                <mat-hint align="end">{{inputSsn.value.length}}/10</mat-hint>
+            </mat-form-field>
+        </div> 
+        <div class="button-wrapper">
+            <button mat-flat-button color="primary" class="mat-button" (click)="submitForm()">Send</button>
+            <button mat-flat-button color="warn" class="mat-button" (click)="resetForm()">Reset</button>
+        </div>
+    </div>
+</div>

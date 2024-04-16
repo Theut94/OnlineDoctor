@@ -1,0 +1,48 @@
+.form-grid{
+    display: grid;
+    grid-template-rows: 15% 70% 15%;
+    height: 55vh;
+    width: 25vw;
+    grid-gap: 10px;
+    background-color: #f5f5f5;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-field{
+    width: 85%;
+}
+
+.mat-button{
+    width: 35%;
+}
+
+.button-wrapper{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+.title-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

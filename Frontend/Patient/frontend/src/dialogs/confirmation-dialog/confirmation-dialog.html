@@ -1,0 +1,7 @@
+<h2 mat-dialog-title>Are you sure you want to reset the form?</h2>
+<mat-dialog-actions>
+    <div class="button-wrapper">
+        <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Reset form</button>
+        <button mat-flat-button color="warn" (click)="cancel()">No Thanks</button>
+    </div>
+</mat-dialog-actions>
