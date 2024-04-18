@@ -1,4 +1,4 @@
-export interface Measurement {
+export interface IMeasurement {
     id?: string,
     date: Date,
     systolic: number,

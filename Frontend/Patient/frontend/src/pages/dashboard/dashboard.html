@@ -2,7 +2,7 @@
 
 
 <div class="form-wrapper">
-    <div class="form-grid">
+    <div [ngStyle]="{'opacity': spinner ? '0.5' : '1'}" class="form-grid">
         <div class="title-wrapper">
             <h2 mat-dialog-title>Blood measurement form</h2>
         </div>
@@ -38,4 +38,6 @@
             <button mat-flat-button color="warn" class="mat-button" (click)="resetForm()">Reset</button>
         </div>
     </div>
+
+    <div *ngIf="spinner" class="loader-container"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
 </div>
