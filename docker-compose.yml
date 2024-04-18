@@ -1,14 +1,25 @@
 version: '3.9'
 services:
-  hageman:
+  measurement:
+    container_name: measurement
+    build:
+      dockerfile: Backend/MeasurementAPI/Dockerfile
+      context: .
+    ports:
+      - "3000:80"
+  doctor:
+    container_name: doctor
     build:
       context: ./Frontend/Doctor/frontend
       dockerfile: Dockerfile
     ports:
       - "4200:80"
-  janning:
+  patient:
+    container_name: patient
     build:
       context: ./Frontend/Patient/frontend
       dockerfile: Dockerfile
     ports:
       - "4201:80"
+    depends_on:
+      - measurement

@@ -9,7 +9,7 @@ export class HttpServiceService {
   constructor() { }
 
   async postMeassurements(meassurement: IMeasurement){
-    const response = await fetch('http://localhost:3000/meassurements', {
+    const response = await fetch('http://measurementservice:3000/Meassurements', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
