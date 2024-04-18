@@ -3,8 +3,8 @@ services:
   measurement:
     container_name: measurement
     build:
-      dockerfile: Backend/MeasurementAPI/Dockerfile
-      context: .
+      context: ./Backend
+      dockerfile: MeasurementAPI/Dockerfile
     ports:
       - "3000:80"
   doctor:
