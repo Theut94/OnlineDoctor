@@ -37,7 +37,6 @@ export class ErrorDialogComponent {
     public dialogRef: MatDialogRef<ErrorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {title: string, errors: string[]},
   ) {
-    console.log(data);
   }
 
   cancel(): void {

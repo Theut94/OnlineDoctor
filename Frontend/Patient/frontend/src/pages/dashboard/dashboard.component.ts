@@ -99,9 +99,9 @@ export class DashboardComponent implements OnInit{
       this.spinner = false;
     } else {
 
-      this.diastolicErrorMessage = this.diastolic.invalid ? 'Invalid diastolic value' : '';
-      this.systolicErrorMessage = this.systolic.invalid ? 'Invalid systolic value' : '';
-      this.ssnErrorMessage = this.ssn.invalid ? 'Invalid SSN' : '';
+      this.diastolicErrorMessage = this.diastolic.invalid ? 'Invalid diastolic value. Should be a value between 60 and 120.' : '';
+      this.systolicErrorMessage = this.systolic.invalid ? 'Invalid systolic value. Should be a value between 70 and 200.' : '';
+      this.ssnErrorMessage = this.ssn.invalid ? 'Invalid SSN. Should be numeric and follow this format DDMMYYXXXX.' : '';
 
 
       const errors: string[] = [];
@@ -119,7 +119,7 @@ export class DashboardComponent implements OnInit{
       }
 
       const dialogRef = this.dialog.open(ErrorDialogComponent, {
-        data: { title: 'One or more fields was filled in incorrectly', errors }
+        data: { title: 'insufficient form data!', errors }
       });
     }
     
