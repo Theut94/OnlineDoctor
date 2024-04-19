@@ -31,7 +31,7 @@ namespace MeasurementAPI.Controllers
         [HttpGet(Name = "GetMeasurements")]
         public async Task<IActionResult> Get(string ssn)
         {
-            var result = _service.GetMeassurements(ssn);
+            var result =  await _service.GetMeassurements(ssn);
             if (result == null)
             {
                 return NotFound();

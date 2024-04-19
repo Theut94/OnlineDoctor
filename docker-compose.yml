@@ -6,9 +6,18 @@ services:
       context: ./Backend
       dockerfile: MeasurementAPI/Dockerfile
     networks:
-        - patient-network
+        - patient-network         
     ports:
       - "3000:80"
+  patientapi:
+    container_name: patientapi
+    build:
+      context: ./Backend
+      dockerfile: Patientapi/Dockerfile
+    networks:
+        - patient-network         
+    ports:
+      - "3001:80"
   doctor:
     container_name: doctor
     build:
@@ -18,6 +27,7 @@ services:
       - "4200:80"
   patient:
     container_name: patient
+    hostname: patient
     build:
       context: ./Frontend/Patient/frontend
       dockerfile: Dockerfile

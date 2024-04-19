@@ -1,4 +1,5 @@
-﻿using ShareModels;
+﻿using Microsoft.EntityFrameworkCore;
+using ShareModels;
 using SQLitePCL;
 
 namespace MeasurementAPI.Repositories;
@@ -19,8 +20,8 @@ public class MeasurementRepository: IMeasurementRepository
         return measurement;
     }
 
-    public List<Measurement> GetMeassurements(string ssn)
+    public async Task<List<Measurement>>GetMeassurements(string ssn)
     {
-        return _context.Measurements.Where(m => m.patientSSN == ssn).ToList();
+        return await _context.Measurements.Where(m => m.patientSSN == ssn).ToListAsync();
     }
 }

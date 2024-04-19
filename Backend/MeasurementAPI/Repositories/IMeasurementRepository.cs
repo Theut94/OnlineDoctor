@@ -5,5 +5,5 @@ namespace MeasurementAPI.Repositories;
 public interface IMeasurementRepository
 {
     Measurement InsertMeasurement(Measurement measurement);
-    List<Measurement> GetMeassurements(String ssn);
+    Task<List<Measurement>> GetMeassurements(String ssn);
 }

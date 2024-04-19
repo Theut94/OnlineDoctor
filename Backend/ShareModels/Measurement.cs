@@ -7,5 +7,6 @@
         public int Systolic { get; set; }
         public int Diastolic { get; set; }
         public string patientSSN { get; set; }
+        public bool HasBeenSeen {  get; set; } = false;
     }
 }
