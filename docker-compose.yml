@@ -5,6 +5,8 @@ services:
     build:
       context: ./Backend
       dockerfile: MeasurementAPI/Dockerfile
+    networks:
+        - patient-network
     ports:
       - "3000:80"
   doctor:
@@ -19,7 +21,14 @@ services:
     build:
       context: ./Frontend/Patient/frontend
       dockerfile: Dockerfile
+    networks:
+        - patient-network
     ports:
       - "4201:80"
     depends_on:
       - measurement
+      
+networks:
+  patient-network:
+    external: true
+    driver: bridge

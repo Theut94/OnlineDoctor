@@ -89,7 +89,9 @@ export class DashboardComponent implements OnInit{
         patientSSN: this.ssn.value ? this.ssn.value : '00000000000',
       };
 
-      const request = await this.http.postMeassurements(measurement).then((request) => request).catch((request) => request);
+      const request = await this.http.postMeassurements(measurement)
+      .then((request) =>  request)
+      .catch((request) =>  request);
       
       if (request){
         const dialogRef = this.dialog.open(SuccessDialogComponent);

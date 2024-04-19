@@ -8,15 +8,17 @@ export class HttpServiceService {
 
   constructor() { }
 
-  async postMeassurements(meassurement: IMeasurement){
-    const response = await fetch('http://measurement:3000/Meassurements', {
+  async postMeassurements(measurement: IMeasurement){
+    const response = await fetch('http://127.0.0.1:3000/Measurement', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(meassurement)
+      body: JSON.stringify(measurement)
     })
     .then(() => true)
     .catch(() => false);
+    
+    return response;
   }
 }
