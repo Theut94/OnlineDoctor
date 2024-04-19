@@ -1,6 +1,6 @@
-﻿using PatientAPI.Repositories;
+﻿using Newtonsoft.Json;
+using PatientAPI.Repositories;
 using ShareModels;
-using System.Text.Json;
 
 namespace PatientAPI.Service
 {
@@ -25,13 +25,15 @@ namespace PatientAPI.Service
             var patient = _repository.GetPatient(ssn);
 
             var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, $"localhost:3000/Measurement?ssn={ssn}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"http://measurement/Measurement?ssn={ssn}");
+            
             var response = await client.SendAsync(request);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
             var Measurements = new List<Measurement>();
             if (response.IsSuccessStatusCode) 
             { 
                 var result = await response.Content.ReadAsStringAsync();            
-                Measurements = JsonSerializer.Deserialize<List<Measurement>>(result);
+                Measurements = JsonConvert.DeserializeObject<List<Measurement>>(result);
             }
             //Should use a mapper weee
 
