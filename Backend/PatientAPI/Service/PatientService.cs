@@ -28,7 +28,6 @@ namespace PatientAPI.Service
             var request = new HttpRequestMessage(HttpMethod.Get, $"http://measurement/Measurement?ssn={ssn}");
             
             var response = await client.SendAsync(request);
-            Console.WriteLine(await response.Content.ReadAsStringAsync());
             var Measurements = new List<Measurement>();
             if (response.IsSuccessStatusCode) 
             { 
