@@ -19,7 +19,11 @@ namespace MeasurementAPI.Controllers
         [HttpPost(Name = "PostMeasurement")]
         public async Task<IActionResult> Post(MeasurementPostDTO measurementPostDTO)
         {
+            string country = HttpContext.Request.Query["country"];
+            
+            Console.WriteLine($"Country: {country}");
             Console.WriteLine(measurementPostDTO);
+            
             var result = _service.InsertMeasurement(measurementPostDTO);
             if (result == null || result.Id == null)
             {

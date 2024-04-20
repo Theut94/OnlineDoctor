@@ -8,8 +8,8 @@ export class HttpServiceService {
 
   constructor() { }
 
-  async postMeassurements(measurement: IMeasurement){
-    const response = await fetch('http://127.0.0.1:3000/Measurement', { 
+  async postMeassurements(measurement: IMeasurement, country: string){
+    const response = await fetch(`http://127.0.0.1:3000/Measurement?country=${encodeURIComponent(country)}`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

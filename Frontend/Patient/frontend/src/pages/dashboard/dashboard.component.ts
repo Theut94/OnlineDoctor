@@ -12,12 +12,13 @@ import { HttpServiceService } from '../../services/http-service.service';
 import { NgIf, NgStyle } from '@angular/common';
 import { IMeasurement } from '../../models/Measurement.model';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
-import { title } from 'process';
+import {MatSelectModule} from '@angular/material/select';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'op-dashboard',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatButtonModule, NgIf, NgStyle],
+  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatButtonModule, NgIf, NgStyle, NgFor, MatSelectModule],
   templateUrl: './dashboard.html',
   providers:[provideNativeDateAdapter()],
   styleUrl: './dashboard.scss'
@@ -25,6 +26,9 @@ import { title } from 'process';
 export class DashboardComponent implements OnInit{
   //#region "Properties"
   date: Date = new Date();
+
+  contrySelection: string [] = ['Sweden', 'Norway', 'Denmark', 'Finland'];
+  selectedCountry: string = 'Denmark';
 
   spinner = false;
   //#endregion
@@ -89,7 +93,7 @@ export class DashboardComponent implements OnInit{
         patientSSN: this.ssn.value ? this.ssn.value : '00000000000',
       };
 
-      const request = await this.http.postMeassurements(measurement)
+      const request = await this.http.postMeassurements(measurement, this.selectedCountry)
       .then((request) =>  request)
       .catch((request) =>  request);
       
