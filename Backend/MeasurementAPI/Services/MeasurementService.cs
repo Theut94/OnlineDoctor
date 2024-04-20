@@ -26,6 +26,11 @@ public class MeasurementService: IMeasurementService
         return _repository.InsertMeasurement(measurement);
     }
 
+    public Measurement UpdateMeasurement(Measurement measurement)
+    {
+        return _repository.UpdateMeasurement(measurement);
+    }
+
     public async Task<List<Measurement>> GetMeassurements(string ssn)
     {
         return await _repository.GetMeassurements(ssn);

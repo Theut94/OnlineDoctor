@@ -30,6 +30,22 @@ namespace MeasurementAPI.Controllers
                 return BadRequest();
             }
             return Ok(result);
+        }        
+        
+        [HttpPut(Name = "PutMeasurement")]
+        public async Task<IActionResult> Put(Measurement measurement)
+        {
+            string country = HttpContext.Request.Query["country"]; //
+            
+            Console.WriteLine($"Country: {country}");
+            Console.WriteLine(measurement);
+            
+            var result = _service.UpdateMeasurement(measurement);
+            if (result == null || result.Id == null)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
         }
         
         [HttpGet(Name = "GetMeasurements")]

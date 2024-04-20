@@ -20,6 +20,13 @@ public class MeasurementRepository: IMeasurementRepository
         return measurement;
     }
 
+    public Measurement UpdateMeasurement(Measurement measurement)
+    {
+        _context.Update(measurement);
+        _context.SaveChanges();
+        return measurement;
+    }
+
     public async Task<List<Measurement>>GetMeassurements(string ssn)
     {
         return await _context.Measurements.Where(m => m.patientSSN == ssn).ToListAsync();
