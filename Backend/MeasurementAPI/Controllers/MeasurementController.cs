@@ -1,3 +1,4 @@
+using FeatureHubSDK;
 using MeasurementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using ShareModels;
@@ -9,20 +10,25 @@ namespace MeasurementAPI.Controllers
     public class MeasurementController : ControllerBase
     {
         private readonly IMeasurementService _service;
+        private readonly IFeatureToggle _featureToggle;
         
 
-        public MeasurementController(IMeasurementService service)
+        public MeasurementController(IMeasurementService service, IFeatureToggle featureToggle)
         {
             _service = service;
+            _featureToggle = featureToggle;
         }
 
         [HttpPost(Name = "PostMeasurement")]
         public async Task<IActionResult> Post(MeasurementPostDTO measurementPostDTO)
         {
             string country = HttpContext.Request.Query["country"];
-            
-            Console.WriteLine($"Country: {country}");
-            Console.WriteLine(measurementPostDTO);
+
+            var feature = await _featureToggle.IsCountryAllowed(country);
+            if (!feature)
+            {
+                return StatusCode(403, "Country not allowed");
+            }
             
             var result = _service.InsertMeasurement(measurementPostDTO);
             if (result == null || result.Id == null)
@@ -35,10 +41,13 @@ namespace MeasurementAPI.Controllers
         [HttpPut(Name = "PutMeasurement")]
         public async Task<IActionResult> Put(Measurement measurement)
         {
-            string country = HttpContext.Request.Query["country"]; //
+            string country = HttpContext.Request.Query["country"];
             
-            Console.WriteLine($"Country: {country}");
-            Console.WriteLine(measurement);
+            var feature = await _featureToggle.IsCountryAllowed(country);
+            if (!feature)
+            {
+                return StatusCode(403, "Country not allowed");
+            }
             
             var result = _service.UpdateMeasurement(measurement);
             if (result == null || result.Id == null)

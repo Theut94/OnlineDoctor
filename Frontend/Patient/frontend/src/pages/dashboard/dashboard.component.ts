@@ -96,8 +96,20 @@ export class DashboardComponent implements OnInit{
       const request = await this.http.postMeassurements(measurement, this.selectedCountry)
       .then((request) =>  request)
       .catch((request) =>  request);
+
+      if(!request){
+        const dialogRef = this.dialog.open(ErrorDialogComponent, {data: {title: 'An error occured while submitting the form', errors: ['Please try again later']}});
+        this.spinner = false;
+        return;
+      }
+
+      if(request.status === 403){
+        const dialogRef = this.dialog.open(ErrorDialogComponent, {data: {title: 'An error occured while submitting the form', errors: ['This service is not available in your country']}});
+        this.spinner = false;
+        return;
+      }
       
-      if (request){
+      if (request.status === 200){
         const dialogRef = this.dialog.open(SuccessDialogComponent);
       } else {
         const dialogRef = this.dialog.open(ErrorDialogComponent, {data: {title: 'An error occured while submitting the form', errors: ['Please try again later']}});

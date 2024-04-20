@@ -1,5 +1,16 @@
 version: '3.9'
 services:
+  featurehub:
+    container_name: featurehub
+    image: featurehub/party-server:latest
+    restart: always
+    volumes:
+      - featurehub-h2-data:/db      
+    ports:
+      - 8085:8085
+    networks:
+      - patient-network
+
   measurement:
     container_name: measurement
     build:
@@ -9,6 +20,8 @@ services:
         - patient-network         
     ports:
       - "3000:80"
+    depends_on:
+      - featurehub
   patientapi:
     container_name: patientapi
     build:
@@ -37,6 +50,9 @@ services:
       - "4201:80"
     depends_on:
       - measurement
+
+volumes:
+  featurehub-h2-data:
       
 networks:
   patient-network:
