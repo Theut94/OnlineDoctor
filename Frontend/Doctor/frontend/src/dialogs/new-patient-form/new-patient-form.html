@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  <!-- Patient Information Form -->
+  <form>
+    <!-- Name -->
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Enter Name" [(ngModel)]="placeholderBecauseAngularIsRetarded.name" name="name" required>
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="email" placeholder="Enter Email" [(ngModel)]="placeholderBecauseAngularIsRetarded.mail" name="mail" required>
+    </mat-form-field>
+
+    <!-- SSN -->
+    <mat-form-field>
+      <mat-label>SSN</mat-label>
+      <input matInput placeholder="Enter SSN" [(ngModel)]="placeholderBecauseAngularIsRetarded.ssn" name="ssn" required>
+    </mat-form-field>
+
+    <!-- Phone -->
+    <!--<mat-form-field>
+    <mat-label>Phone</mat-label>
+    <input matInput type="tel" placeholder="Enter Phone" [(ngModel)]="patient.phone" name="phone" required>
+  </mat-form-field>-->
+    <!-- Date of Birth -->
+    <!--<mat-form-field class="form-field">
+      <mat-label>{{date?.toDateString()}}</mat-label>
+      <input matInput [matDatepicker]="dp" disabled
+             (dateInput)="setDate($event)" (dateChange)="setDate($event)">
+      <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp disabled="false"></mat-datepicker>
+    </mat-form-field>-->
+
+
+    <!-- Address -->
+    <!--<mat-form-field>
+      <mat-label>Address</mat-label>
+      <input matInput placeholder="Enter Address" [(ngModel)]="patient.address" name="address" required>
+    </mat-form-field>-->
+
+    <!-- Gender -->
+    <!--<mat-form-field>
+    <mat-label>Gender</mat-label>
+    <mat-select [(value)]="patient.gender" name="gender" placeholder="Select Gender" required>
+      <mat-option value="male">Male</mat-option>
+      <mat-option value="female">Female</mat-option>
+      <mat-option value="other">Other</mat-option>
+    </mat-select>
+  </mat-form-field>-->
+    <!-- Medical History -->
+    <!--<mat-form-field>
+    <mat-label>Medical History</mat-label>
+    <textarea matInput placeholder="Enter Medical History" [(ngModel)]="patient.medicalHistory" name="medicalHistory"></textarea>
+  </mat-form-field>-->
+    <!-- Any other fields you need -->
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="button-wrapper">
+    <button mat-flat-button color="primary" (click)="submitForm()" cdkFocusInitial>{{ data.confirmText }}</button>
+    <button mat-flat-button color="warn" (click)="cancel()">{{ data.cancelText }}</button>
+  </div>
+</mat-dialog-actions>
