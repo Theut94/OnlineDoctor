@@ -1,0 +1,78 @@
+
+
+
+<div class="form-wrapper">
+  <div [ngStyle]="{'opacity': spinner ? '0.5' : '1'}" class="form-grid">
+
+    <button mat-raised-button color="primary" (click)="openNewPatientForm()" class="new-patient-button">Create new patient</button>
+
+    <mat-accordion multi="true">
+      <!-- Patient Header -->
+      <mat-expansion-panel disabled="true" [expanded]="true" class="header-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="name-item header-item">Name:</div>
+            <div class="mail-item header-item">Mail:</div>
+            <div class="ssn-item header-item">SSN:</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <!-- Patient Panel -->
+      <mat-expansion-panel *ngFor="let patient of patients">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="name-item">{{ patient.name }}</div>
+            <div class="mail-item">{{ patient.mail }}</div>
+            <div class="ssn-item">{{ patient.ssn }}</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+
+        <!-- Measurement Header -->
+        <mat-expansion-panel disabled="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="date-item header-item">Date:</div>
+              <div class="systolic-item header-item">Systolic:</div>
+              <div class="diastolic-item header-item">Diastolic:</div>
+              <div class="review-item header-item">Review status:</div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+
+        <!-- Measurement Panels -->
+        <mat-expansion-panel *ngFor="let measurement of patient.measurements" hideToggle disabled="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="date-item header-item">{{ formatDate(measurement.date.toString()) }}</div>
+              <div class="systolic-item header-item">{{ measurement.systolic }}</div>
+              <div class="diastolic-item header-item">{{ measurement.diastolic }}</div>
+              <div class="review-item header-item">
+                <div class="icon-container">
+                  <span>
+                    <mat-icon class="heart-css">{{ measurement.hasBeenSeen ? 'favorite' : 'favorite_border' }}</mat-icon>
+                  </span>
+                  <button mat-flat-button [color]="measurement.hasBeenSeen ? 'primary' : 'warn'" class="mat-button"
+                          (click)="!measurement.hasBeenSeen ? toggleReviewStatusSeen(measurement) : toggleReviewStatusUnseen(measurement)">
+                    {{ measurement.hasBeenSeen ? 'Ok' : 'Pending' }}
+                  </button>
+                </div>
+              </div>
+
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+        </mat-expansion-panel>
+        <mat-action-row>
+          <button mat-flat-button color="warn" class="mat-button delete-button" (click)="deletePatient($event, patient)">Delete {{ patient.name.split(' ')[0] }}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+
+
+  </div>
+
+  <div *ngIf="spinner" class="loader-container"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+</div>
