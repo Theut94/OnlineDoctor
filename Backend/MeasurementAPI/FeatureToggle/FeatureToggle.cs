@@ -1,5 +1,6 @@
 ﻿using FeatureHubSDK;
 using IO.FeatureHub.SSE.Model;
+using Monitoring;
 
 namespace MeasurementAPI;
 
@@ -11,10 +12,16 @@ public class FeatureToggle: IFeatureToggle
     private string _simonKEyDesktop = "5adfae95-5569-4464-aac0-4e4f1caa954e/ktxFMqQvRZDBKJ7PEfkjkdqAP0A1uMPGFxS4rETI";
     private string _mikkelKEy = "d56a33fb-93cd-4afa-ac35-c592b4541be2/yOcmL3wxTTWGD143avq0KFTsjDhBUVK30mrfvD7o";
     
+    private readonly IMonitoringService _monitoringService;
     
-    public FeatureToggle()
+    public FeatureToggle(IMonitoringService monitoringService)
     {
-        _config = new EdgeFeatureHubConfig("http://featurehub:8085", _simonKEyDesktop);
+        _config = new EdgeFeatureHubConfig("http://featurehub:8085", _janKey);
+        var logger = monitoringService.getLogger();
+        FeatureLogging.TraceLogger += (sender, s) => logger.Information(s);
+        FeatureLogging.InfoLogger += (sender, s) => logger.Information(s);
+        FeatureLogging.ErrorLogger += (sender, s) => logger.Error(s);
+       
     }
     
     public async Task<bool> IsCountryAllowed(string country)

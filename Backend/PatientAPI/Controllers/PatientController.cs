@@ -2,6 +2,7 @@
 using PatientAPI.Service;
 using ShareModels;
 using System.Runtime.Intrinsics.X86;
+using Monitoring;
 
 namespace PatientAPI.Controllers
 {
@@ -10,12 +11,13 @@ namespace PatientAPI.Controllers
     public class PatientController : ControllerBase
     {
         private IPatientService _patientService;
+        private IMonitoringService _monitoringService;
 
-        public PatientController(IPatientService patientServicecs) 
-        { 
+        public PatientController(IPatientService patientServicecs, IMonitoringService monitoringService)
+        {
             _patientService = patientServicecs;
+            _monitoringService = monitoringService;
         }
-
 
         //[HttpGet]
         //public async Task<IActionResult> GetPatient(string ssn)
@@ -42,6 +44,7 @@ namespace PatientAPI.Controllers
             }
             catch (Exception ex)
             {
+                _monitoringService.getLogger().Warning("PATIENT CONTROLLER | Patients could not be fetched - with message {message}", ex.Message);
                 return BadRequest(ex.Message);
             }
 
@@ -57,6 +60,7 @@ namespace PatientAPI.Controllers
             }
             catch (Exception ex)
             {
+                _monitoringService.getLogger().Warning("PATIENT CONTROLLER | Patient {patient} could not be posted - with message {message}", patient, ex.Message);
                 return BadRequest(ex.Message);
             }
         }
@@ -72,6 +76,7 @@ namespace PatientAPI.Controllers
             }
             catch(Exception ex) 
             {
+                _monitoringService.getLogger().Warning("PATIENT CONTROLLER | Patient with ssn {ssn} could not be deleted - with message {message}", ssn, ex.Message);
                 return BadRequest($"{ex.Message}");
             }
         }

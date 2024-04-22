@@ -11,6 +11,27 @@ services:
     networks:
       - patient-network
 
+  seq:
+    container_name: seq
+    image: datalust/seq:latest
+    ports:
+      - 5341:5341
+      - 5342:80
+    volumes:
+      - rps_seq-data:/data
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - patient-network
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
+    networks:
+      - patient-network
+
   measurement:
     container_name: measurement
     build:
@@ -22,6 +43,8 @@ services:
       - "3000:80"
     depends_on:
       - featurehub
+      - seq
+      - zipkin
   patientapi:
     container_name: patientapi
     build:
@@ -31,6 +54,8 @@ services:
         - patient-network         
     ports:
       - "3001:80"
+    depends_on:
+      - seq
   doctor:
     container_name: doctor
     build:
@@ -38,6 +63,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4200:80"
+    depends_on:
+      - patientapi
+      - measurement
+      - zipkin
   patient:
     container_name: patient
     hostname: patient
@@ -53,6 +82,7 @@ services:
 
 volumes:
   featurehub-h2-data:
+  rps_seq-data:
       
 networks:
   patient-network:

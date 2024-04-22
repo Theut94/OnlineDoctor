@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Monitoring;
+using Newtonsoft.Json;
 using PatientAPI.Repositories;
 using ShareModels;
 
@@ -8,12 +9,13 @@ namespace PatientAPI.Service
     {
 
         private IPatientRepository _repository;
+        private IMonitoringService _monitoringService;
 
-        public PatientService(IPatientRepository repository)
+        public PatientService(IPatientRepository repository, IMonitoringService monitoringService)
         {
             _repository = repository;
+            _monitoringService = monitoringService;
         }
-
         public void DeletePatient(string ssn)
         {
             _repository.DeletePatient(ssn);
@@ -48,7 +50,6 @@ namespace PatientAPI.Service
 
         public async Task<List<GetPatientDTO>> GetPatients()
         {
-
             var patients = _repository.GetPatients();
             var patientDTOs = new List<GetPatientDTO>();
 
@@ -68,6 +69,10 @@ namespace PatientAPI.Service
                 {
                     var result = await response.Content.ReadAsStringAsync();
                     measurements = JsonConvert.DeserializeObject<List<Measurement>>(result);
+                }
+                else
+                {
+                    _monitoringService.getLogger().Warning("PATIENT SERVICE | Could not fetch measurements for patient {patient}", patient); 
                 }
                 //Should use a mapper weee
 

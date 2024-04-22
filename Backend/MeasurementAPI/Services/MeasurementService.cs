@@ -1,5 +1,4 @@
-﻿using MeasurementAPI.Controllers;
-using MeasurementAPI.Repositories;
+﻿using MeasurementAPI.Repositories;
 using ShareModels;
 
 namespace MeasurementAPI.Services;
