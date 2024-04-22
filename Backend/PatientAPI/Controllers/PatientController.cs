@@ -17,19 +17,34 @@ namespace PatientAPI.Controllers
         }
 
 
+        //[HttpGet]
+        //public async Task<IActionResult> GetPatient(string ssn)
+        //{
+        //    try
+        //    {
+        //        var patient = await _patientService.GetPatient(ssn);
+        //        return Ok(patient);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+
+        //}
+
         [HttpGet]
-        public async Task<IActionResult> GetPatient(string ssn)
+        public async Task<IActionResult> GetPatients()
         {
             try
             {
-                var patient = await _patientService.GetPatient(ssn);
+                var patient = await _patientService.GetPatients();
                 return Ok(patient);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
+
         }
 
         [HttpPost]

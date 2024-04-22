@@ -41,6 +41,8 @@ namespace MeasurementAPI.Controllers
         [HttpPut(Name = "PutMeasurement")]
         public async Task<IActionResult> Put(Measurement measurement)
         {
+            Console.WriteLine("measurement", measurement);
+
             string country = HttpContext.Request.Query["country"];
             
             var feature = await _featureToggle.IsCountryAllowed(country);

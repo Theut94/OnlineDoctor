@@ -8,5 +8,6 @@ namespace PatientAPI.Service
         public Task<GetPatientDTO> GetPatient(string ssn);
 
         public void DeletePatient(string ssn);
+        public Task<List<GetPatientDTO>> GetPatients();
     }
 }

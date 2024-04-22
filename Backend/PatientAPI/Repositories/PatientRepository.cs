@@ -23,6 +23,12 @@ namespace PatientAPI.Repositories
             return patient;
         }
 
+        public List<Patient> GetPatients()
+        {
+            var patients = _context.Patients.ToList();
+            return patients;
+        }
+
         public void PostPatient(Patient patient)
         {
             _context.Patients.Add(patient);

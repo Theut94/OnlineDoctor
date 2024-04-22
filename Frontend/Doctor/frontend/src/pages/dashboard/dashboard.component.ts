@@ -24,59 +24,60 @@ import { NewPatientFormComponent } from '../../dialogs/new-patient-form/new-pati
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatButtonModule, NgIf, NgStyle, NgFor, MatSelectModule, MatExpansionModule, MatIconModule],
   templateUrl: './dashboard.html',
-  providers:[provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter()],
   styleUrl: './dashboard.scss'
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
 
-   patients: IPatient[] = [
-    {
-      mail: "john@example.com",
-      name: "Johnnyboy Doe Marksman",
-      measurements: [
-        {
-          id: "1",
-          date: new Date("2024-04-15"),
-          systolic: 120,
-          diastolic: 80,
-          patientSSN: "123-45-6789",
-          hasBeenSeen: false
-        },
-        {
-          id: "2",
-          date: new Date("2024-04-10"),
-          systolic: 130,
-          diastolic: 85,
-          patientSSN: "123-45-6789",
-          hasBeenSeen: true
-        }
-      ],
-      ssn: "123-45-6789"
-    },
-    {
-      mail: "jane@example.com",
-      name: "Jane Smith",
-      measurements: [
-        {
-          id: "1",
-          date: new Date("2024-04-18"),
-          systolic: 125,
-          diastolic: 75,
-          patientSSN: "987-65-4321",
-          hasBeenSeen: false
-        },
-        {
-          id: "2",
-          date: new Date("2024-04-12"),
-          systolic: 128,
-          diastolic: 78,
-          patientSSN: "987-65-4321",
-          hasBeenSeen: true
-        }
-      ],
-      ssn: "987-65-4321"
-    }
-  ];
+  patients: IPatient[] = [];
+
+    //{
+    //  mail: "john@example.com",
+    //  name: "Johnnyboy Doe Marksman",
+    //  measurements: [
+    //    {
+    //      id: "1",
+    //      date: new Date("2024-04-15"),
+    //      systolic: 120,
+    //      diastolic: 80,
+    //      patientSSN: "123-45-6789",
+    //      hasBeenSeen: false
+    //    },
+    //    {
+    //      id: "2",
+    //      date: new Date("2024-04-10"),
+    //      systolic: 130,
+    //      diastolic: 85,
+    //      patientSSN: "123-45-6789",
+    //      hasBeenSeen: true
+    //    }
+    //  ],
+    //  ssn: "123-45-6789"
+    //},
+    //{
+    //  mail: "jane@example.com",
+    //  name: "Jane Smith",
+    //  measurements: [
+    //    {
+    //      id: "1",
+    //      date: new Date("2024-04-18"),
+    //      systolic: 125,
+    //      diastolic: 75,
+    //      patientSSN: "987-65-4321",
+    //      hasBeenSeen: false
+    //    },
+    //    {
+    //      id: "2",
+    //      date: new Date("2024-04-12"),
+    //      systolic: 128,
+    //      diastolic: 78,
+    //      patientSSN: "987-65-4321",
+    //      hasBeenSeen: true
+    //    }
+    //  ],
+    //  ssn: "987-65-4321"
+    //}
+
 
   panelOpenState = false;
 
@@ -89,7 +90,7 @@ export class DashboardComponent implements OnInit{
     return `${day}/${month}/${year}`;
   }
 
-  toggleReviewStatusSeen(measurement: any) {
+  toggleReviewStatusSeen(measurement: IMeasurement) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
         title: 'Are you sure you want to change the review status?',
@@ -98,10 +99,37 @@ export class DashboardComponent implements OnInit{
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
+      console.log("result = ", result)
       if (result) {
-        //send PUT
-        measurement.hasBeenSeen = !measurement.hasBeenSeen;
+        const newMeasurement: IMeasurement = {
+          date: measurement.date,
+          diastolic: measurement.diastolic,
+          hasBeenSeen: true,
+          patientSSN: measurement.patientSSN,
+          systolic: measurement.systolic,
+          id: measurement.id
+        }
+        const request = await this.http.putMeassurements(newMeasurement, this.selectedCountry)
+          .then((request) => request)
+          .catch((request) => request);
+
+        if (!request) {
+          this.dialog.open(ErrorDialogComponent, { data: { title: 'An error occured while submitting the form', errors: ['Please try again later'] } });
+          this.spinner = false;
+          return;
+        }
+
+        if (request.status === 403) {
+          this.dialog.open(ErrorDialogComponent, { data: { title: 'An error occured while submitting the form', errors: ['This service is not available in your country'] } });
+          this.spinner = false;
+          return;
+        }
+        if (request.status === 200) {
+          measurement.hasBeenSeen = true;
+          return;
+        }
+        this.dialog.open(ErrorDialogComponent, { data: { title: 'An error occured while submitting the form', errors: ['Please try again later'] } });
       }
     });
   }
@@ -218,8 +246,31 @@ export class DashboardComponent implements OnInit{
 
   constructor(public dialog: MatDialog, public http: HttpServiceService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
 
+    const request = await this.http.getPatients()
+      .then((request) => request)
+      .catch((request) => request);
+      console.log("request = ")
+      console.log(request)
+    if (!request) {
+      this.dialog.open(ErrorDialogComponent, { data: { title: 'An error occured while submitting the form', errors: ['Please try again later'] } });
+      this.spinner = false;
+      return;
+    }
+
+    if (request.status === 403) {
+      this.dialog.open(ErrorDialogComponent, { data: { title: 'An error occured while submitting the form', errors: ['This service is not available in your country'] } });
+      this.spinner = false;
+      return;
+    }
+    if (request.status === 200) {
+      const data = await request.json();
+      console.log("data = ")
+      console.log(data)
+      this.patients = data;
+      return;
+    }
   }
 
   setDate(event: MatDatepickerInputEvent<Date>) {
