@@ -435,3 +435,4 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/angular,csharp
 *.vsidx
 *.cache
+.vs/slnx.sqlite
