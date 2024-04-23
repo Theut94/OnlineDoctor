@@ -14,6 +14,7 @@ jobs:
         run: |
           echo "DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}"
           echo "DOCKERHUB_TOKEN: ${{ secrets.DOCKER_PASSWORD }}"
+          echo ls
       - name: Checkout
         uses: actions/checkout@v4
         
