@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientAPI", "PatientAPI\PatientAPI.csproj", "{D8DE3D91-DA2C-4689-99B8-1CE386BF652B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientAPI", "PatientAPI\PatientAPI.csproj", "{D8DE3D91-DA2C-4689-99B8-1CE386BF652B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasurementAPI", "MeasurementAPI\MeasurementAPI.csproj", "{E84DC1BD-1FC9-42A2-B8ED-8B81D03C6C42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeasurementAPI", "MeasurementAPI\MeasurementAPI.csproj", "{E84DC1BD-1FC9-42A2-B8ED-8B81D03C6C42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareModels", "ShareModels\ShareModels.csproj", "{95BDEA0E-A8EB-4024-AE00-0AA65E4F8B0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShareModels", "ShareModels\ShareModels.csproj", "{95BDEA0E-A8EB-4024-AE00-0AA65E4F8B0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monitoring", "Monitoring\Monitoring.csproj", "{0B3FE3BB-9675-46F2-AC2E-429E5F100858}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monitoring", "Monitoring\Monitoring.csproj", "{0B3FE3BB-9675-46F2-AC2E-429E5F100858}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{5A04E097-E291-41B9-A93B-357AE3CB43E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0B3FE3BB-9675-46F2-AC2E-429E5F100858}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B3FE3BB-9675-46F2-AC2E-429E5F100858}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B3FE3BB-9675-46F2-AC2E-429E5F100858}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A04E097-E291-41B9-A93B-357AE3CB43E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A04E097-E291-41B9-A93B-357AE3CB43E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A04E097-E291-41B9-A93B-357AE3CB43E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A04E097-E291-41B9-A93B-357AE3CB43E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
