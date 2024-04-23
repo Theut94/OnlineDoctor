@@ -33,8 +33,7 @@ jobs:
         
       - name: Test
         id: Test
-        run: dotnet test --no-build .\Backend\TestProject1\UnitTest1.cs
-        
+        run: dotnet test --configuration Release --no-build --verbosity normal ./Backend/TestProject1/TestProject1.csproj
           
         
       - name: Build and push measurement backend
