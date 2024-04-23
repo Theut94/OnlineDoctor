@@ -1,0 +1,85 @@
+version: '3.9'
+services:
+  featurehub:
+    container_name: featurehub
+    image: featurehub/party-server:latest
+    restart: always
+    volumes:
+      - featurehub-h2-data:/db      
+    ports:
+      - 8085:8085
+    networks:
+      - patient-network
+
+  seq:
+    container_name: seq
+    image: datalust/seq:latest
+    ports:
+      - 5341:5341
+      - 5342:80
+    volumes:
+      - rps_seq-data:/data
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - patient-network
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
+    networks:
+      - patient-network
+
+  measurement:
+    container_name: measurement
+    image: janwohlgehagen/measurement:latest
+    networks:
+        - patient-network         
+    ports:
+      - "3000:80"
+    depends_on:
+      - featurehub
+      - seq
+      - zipkin
+  patientapi:
+    container_name: patientapi
+    image: janwohlgehagen/patient:latest
+    networks:
+        - patient-network         
+    ports:
+      - "3001:80"
+    depends_on:
+      - seq
+  doctor:
+    container_name: doctor
+    image: janwohlgehagen/doctorfrontend:latest
+    ports:
+      - "4200:80"
+    depends_on:
+      - patientapi
+      - measurement
+      - zipkin
+  patient:
+    container_name: patient
+    image: janwohlgehagen/patientfrondend:latest
+    hostname: patient
+    build:
+      context: ./Frontend/Patient/frontend
+      dockerfile: Dockerfile
+    networks:
+        - patient-network
+    ports:
+      - "4201:80"
+    depends_on:
+      - measurement
+
+volumes:
+  featurehub-h2-data:
+  rps_seq-data:
+      
+networks:
+  patient-network:
+    external: true
+    driver: bridge
