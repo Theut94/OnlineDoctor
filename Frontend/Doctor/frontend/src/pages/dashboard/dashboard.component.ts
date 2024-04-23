@@ -156,29 +156,46 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        this.diastolic.reset();
-        this.systolic.reset();
-        this.ssn.reset();
-        this.date = new Date();
+
+        const request = await this.http.deletePatient(patient)
+          .then((request) => request)
+          .catch((request) => request);
+
+        if (!request) {
+          this.dialog.open(ErrorDialogComponent, { data: { title: 'An error occured while submitting the form', errors: ['Please try again later'] } });
+          this.spinner = false;
+          return;
+        }
+
+        if (request.status === 403) {
+          this.dialog.open(ErrorDialogComponent, { data: { title: 'An error occured while submitting the form', errors: ['This service is not available in your country'] } });
+          this.spinner = false;
+          return;
+        }
+        if (request.status === 200) {
+          this.patients = this.patients.filter((patients) => patients.ssn != patient.ssn)
+          return;
+        }
+        console.log("deletePatient fail")
       }
     });
   }
 
 
-  markSeen() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+  //markSeen() {
+  //  const dialogRef = this.dialog.open(ConfirmationDialogComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.diastolic.reset();
-        this.systolic.reset();
-        this.ssn.reset();
-        this.date = new Date();
-      }
-    });
-  }
+  //  dialogRef.afterClosed().subscribe(result => {
+  //    if (result) {
+  //      this.diastolic.reset();
+  //      this.systolic.reset();
+  //      this.ssn.reset();
+  //      this.date = new Date();
+  //    }
+  //  });
+  //}
 
 
   openNewPatientForm(): void {
@@ -192,15 +209,41 @@ export class DashboardComponent implements OnInit {
       
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         console.log("patient recieved in dashboard")
         console.log(result)
 
         if (result.name && result.mail && result.ssn) {
           console.log("create patient now")
-          // return result to post create patient.
-          // add measurement empty array ?
+
+          const patient: IPatient = {
+            mail: result.mail,
+            measurements: [],
+            name: result.name,
+            ssn: result.ssn
+          }
+
+          const request = await this.http.createPatient(patient)
+            .then((request) => request)
+            .catch((request) => request);
+
+          if (!request) {
+            this.dialog.open(ErrorDialogComponent, { data: { title: 'An error occured while submitting the form', errors: ['Please try again later'] } });
+            this.spinner = false;
+            return;
+          }
+
+          if (request.status === 403) {
+            this.dialog.open(ErrorDialogComponent, { data: { title: 'An error occured while submitting the form', errors: ['This service is not available in your country'] } });
+            this.spinner = false;
+            return;
+          }
+          if (request.status === 200) {
+            this.patients.push(patient);
+            return;
+          }
+          console.log("createPatient aka openNewPatientForm fail")
         }
       }
     });
