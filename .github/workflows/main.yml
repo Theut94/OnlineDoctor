@@ -34,7 +34,7 @@ jobs:
       
       - name: Test
         id: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal ./Backend/UnitTest/UnitTest.csproj
+        run: dotnet test --configuration Release --no-build --verbosity normal .Backend\UnitTest\UnitTest.csproj
           
         
       - name: Build and push measurement backend
