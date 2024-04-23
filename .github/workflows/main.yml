@@ -33,7 +33,7 @@ jobs:
         
       - name: Test
         id: Test
-        run: dotnet test --no-build ~/Backend/test1/test1.csproj
+        run: dotnet test --no-build ./Backend/test1/test1.csproj
         
           
         
