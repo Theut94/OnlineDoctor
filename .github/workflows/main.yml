@@ -1,89 +1,55 @@
-name: CI
+name: ci
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - "main"
 
 jobs:
-  build_backend:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.x' # or whatever version you are using
-
-    - name: Build backend
-      run: |
-        cd backend
-        dotnet build
-
-    - name: Test backend
-      run: |
-        cd backend
-        dotnet test
-
-    - name: Docker Login
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Build Docker image for backend
-      run: |
-        cd backend
-        docker build -t your-docker-username/your-backend-repo:latest .
-
-  build_frontend:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14.x' # or whatever version you are using
-
-    - name: Install Angular CLI
-      run: npm install -g @angular/cli
-
-    - name: Build frontend
-      run: |
-        cd frontend
-        npm install
-        ng build --prod --base-href=/your-base-href/
-
-    - name: Archive frontend artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: frontend
-        path: frontend/dist
-
-  push_docker_images:
-    runs-on: ubuntu-latest
-    needs: [build_backend, build_frontend]
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Docker Login
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Push Docker images
-      run: |
-        docker push your-docker-username/your-backend-repo:latest
-        docker push your-docker-username/your-frontend-repo:latest
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Build and push measurement backend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Backend/MeasurementAPI/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/measurement:latest
+        
+      - name: Build and push patient backend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Backend/PatientAPI/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/patient:latest
+                  
+      - name: Build and push patient frondend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Frontend/patient/frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/patientfrondend:latest
+                  
+      - name: Build and push doctor frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Frontend/doctor/frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/doctorfrontend:latest
+      
