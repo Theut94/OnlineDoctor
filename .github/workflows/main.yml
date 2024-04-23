@@ -30,8 +30,8 @@ jobs:
       - name: Install dependencies and build patient frontend
         working-directory: .
         run: |
-          npm install
-          npm run build
+          sudo apt-get install nodejs
+          sudo apt install npm
           
       - name: Build and push measurement backend
         uses: docker/build-push-action@v5
