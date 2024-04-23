@@ -33,7 +33,8 @@ jobs:
           curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
           sudo apt-get install -y nodejs
           echo node installed
-          sudo apt-get npm install npm@latest
+          echo "npm -v"
+          sudo npm install npm@latest
           
       - name: Build and push measurement backend
         uses: docker/build-push-action@v5
