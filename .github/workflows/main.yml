@@ -33,7 +33,7 @@ jobs:
         
       - name: Test
         id: Test
-        run: dotnet test .\Backend\TestProject1\UnitTest.cs
+        run: dotnet test .\Backend\TestProject1\UnitTest1.cs
         
           
         
