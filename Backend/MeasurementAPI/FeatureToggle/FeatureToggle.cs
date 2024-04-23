@@ -16,7 +16,7 @@ public class FeatureToggle: IFeatureToggle
     
     public FeatureToggle(IMonitoringService monitoringService)
     {
-        _config = new EdgeFeatureHubConfig("http://featurehub:8085", _janKey);
+        _config = new EdgeFeatureHubConfig("http://featurehub:8085", _simonKEy);
         var logger = monitoringService.getLogger();
         FeatureLogging.TraceLogger += (sender, s) => logger.Information(s);
         FeatureLogging.InfoLogger += (sender, s) => logger.Information(s);

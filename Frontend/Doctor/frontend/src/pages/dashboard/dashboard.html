@@ -19,6 +19,16 @@
       </mat-expansion-panel>
 
       <!-- Patient Panel -->
+      <mat-expansion-panel disabled="true" hidden class="no-patients-box" *ngIf="patients.length === 0">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="no-patients-item">no patients available</div>
+            <div class="no-patients-item"></div>
+            <div class="ssn-item"></div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
       <mat-expansion-panel *ngFor="let patient of patients">
         <mat-expansion-panel-header>
           <mat-panel-title>
