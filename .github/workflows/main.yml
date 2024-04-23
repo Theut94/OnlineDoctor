@@ -12,16 +12,16 @@ jobs:
     steps:
       - name: Echo Docker Hub secrets
         run: |
-          echo "DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}"
-          echo "DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}"
+          echo "DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}"
+          echo "DOCKERHUB_TOKEN: ${{ secrets.DOCKER_USERNAME }}"
       - name: Checkout
         uses: actions/checkout@v4
         
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_USERNAME }}
           
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -32,7 +32,7 @@ jobs:
           context: .
           file: ./Backend/MeasurementAPI/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/measurement:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/measurement:latest
         
       - name: Build and push patient backend
         uses: docker/build-push-action@v5
@@ -40,7 +40,7 @@ jobs:
           context: .
           file: ./Backend/PatientAPI/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/patient:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/patient:latest
                   
       - name: Build and push patient frondend
         uses: docker/build-push-action@v5
@@ -48,7 +48,7 @@ jobs:
           context: .
           file: ./Frontend/patient/frontend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/patientfrondend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/patientfrondend:latest
                   
       - name: Build and push doctor frontend
         uses: docker/build-push-action@v5
@@ -56,5 +56,5 @@ jobs:
           context: .
           file: ./Frontend/doctor/frontend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/doctorfrontend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/doctorfrontend:latest
       
