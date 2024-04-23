@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
       - name: TestAndBuild
         id: Test
-        run: dotnet test --configuration Release --verbosity normal Backend\UnitTest\UnitTest.csproj
+        run: dotnet test --configuration Release --verbosity normal Backend/UnitTest/UnitTest.csproj
           
 
   buildpushbackend:
