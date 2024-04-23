@@ -19,22 +19,22 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
           
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         
       - name: Install dependencies and build patient frontend
+       
         working-directory: .
         run: |
-          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
-          sudo apt-get install -y nodejs
-          echo node installed
-          echo "npm -v"
-          sudo npm install npm@latest
+           npm -g install
           
       - name: Build and push measurement backend
         uses: docker/build-push-action@v5
