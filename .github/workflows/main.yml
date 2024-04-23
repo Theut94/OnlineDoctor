@@ -31,7 +31,7 @@ jobs:
         working-directory: .
         run: |
           sudo apt-get install nodejs
-          sudo apt install npm
+          sudo apt-get install npm
           
       - name: Build and push measurement backend
         uses: docker/build-push-action@v5
