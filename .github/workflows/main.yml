@@ -8,7 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
+      - name: Echo Docker Hub secrets
+        run: |
+          echo "DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}"
+          echo "DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}"
       - name: Checkout
         uses: actions/checkout@v4
         
