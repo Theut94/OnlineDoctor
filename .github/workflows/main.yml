@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: build
-        run: dotnet build .Backend\UnitTest\UnitTest.csproj
+        run: dotnet build Backend\UnitTest\UnitTest.csproj
       - name: Test
         id: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal .Backend\UnitTest\UnitTest.csproj
+        run: dotnet test --configuration Release --no-build --verbosity normal Backend\UnitTest\UnitTest.csproj
           
 
   buildpushbackend:
