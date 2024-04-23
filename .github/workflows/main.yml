@@ -36,7 +36,7 @@ jobs:
       
       - name: Test
         id: Test
-        run: dotnet nunit ./Backend/TestProject1/bin/Release/net7.0/TestProject1.dll
+        run: dotnet test --configuration Release --no-build --verbosity normal ./Backend/UnitTest/UnitTest.csproj
           
         
       - name: Build and push measurement backend
