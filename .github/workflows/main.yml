@@ -26,7 +26,12 @@ jobs:
           
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
+      - name: Install dependencies and build patient frontend
+        working-directory: ./Frontend/patient/frontend
+        run: |
+          npm install
+          npm run build
+          
       - name: Build and push measurement backend
         uses: docker/build-push-action@v5
         with:
