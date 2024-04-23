@@ -29,16 +29,16 @@ jobs:
       - name: Build and push measurement backend
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Backend/MeasurementAPI/Dockerfile
+          context: ./Backend
+          file: ./MeasurementAPI/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/measurement:latest
         
       - name: Build and push patient backend
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Backend/PatientAPI/Dockerfile
+          context: ./Backend
+          file: ./PatientAPI/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/patient:latest
                   
