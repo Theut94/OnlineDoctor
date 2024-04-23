@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./Backend
-          file: MeasurementAPI/Dockerfile
+          file: ./Backend/MeasurementAPI/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/measurement:latest
         
@@ -39,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./Backend
-          file: PatientAPI/Dockerfile
+          file: ./Backend/PatientAPI/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/patient:latest
                   
