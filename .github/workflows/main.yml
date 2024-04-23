@@ -50,7 +50,7 @@ jobs:
       - name: Build and push patient frondend
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./Frontend/Patient/frontend
           file: ./Frontend/Patient/frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/patientfrondend:latest
@@ -58,7 +58,7 @@ jobs:
       - name: Build and push doctor frontend
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./Frontend/Doctor/frontend
           file: ./Frontend/Doctor/frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/doctorfrontend:latest
